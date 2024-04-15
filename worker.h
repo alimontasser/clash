@@ -4,11 +4,20 @@
 #include <QObject>
 #include <troop.h>
 
-class worker : public Troop
+class Worker : public Troop
 {
 public:
-    worker();
-    void Repair(){}
+    Worker();
+
+public slots:
+
+    void Repair();
+    void Worker_Spawn();
+    void Move();
+
 };
 
 #endif // WORKER_H
+
+
+

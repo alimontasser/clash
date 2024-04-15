@@ -6,7 +6,7 @@ Fence::Fence() {
 
 
     QPixmap pixmap3(":/fence.png");
-    QPixmap scaledPixmap = pixmap3.scaled(250, 250, Qt::KeepAspectRatio);
+    QPixmap scaledPixmap = pixmap3.scaled(150, 150, Qt::KeepAspectRatio);
     setPixmap(scaledPixmap);
 
 }

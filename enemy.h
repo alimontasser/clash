@@ -8,7 +8,11 @@ class Enemy : public Troop
 {
 public:
     Enemy();
-    void Deal_Damage(){}
+
+public slots:
+    void Deal_Damage();
+    void Enemy_Spawn();
+    void move();
 };
 
 #endif // ENEMY_H

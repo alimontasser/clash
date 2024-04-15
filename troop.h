@@ -14,8 +14,6 @@ protected:
 public:
     Troop();
 
-    virtual void Spawn(){}
-    virtual void Move(){}
 
 };
 
