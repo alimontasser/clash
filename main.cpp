@@ -25,46 +25,53 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);  // Use QApplication for GUI applications
 
     QGraphicsView *view = new QGraphicsView();
-    view->setFixedSize(800, 800);
+    view->setFixedSize(1600, 1000);
 
     // Create the Scene
     QGraphicsScene *scene = new QGraphicsScene();
-    scene->setSceneRect(0, 0, 800, 800); // Set the scene size to match the view
-    scene->setBackgroundBrush(Qt::darkGreen);  // Set the background color to dark green
+    scene->setSceneRect(0, 0, 1600, 1000); // Set the scene size to match the view
 
 
     // Disable scrollbars
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    QPixmap image(":/background.png");
+    QPixmap scaledPixmap = image.scaled(1600, 1000, Qt::KeepAspectRatioByExpanding);
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(scaledPixmap);
+    scene->addItem(item);
+
     //Castle
     Castle * castle = new Castle;
-    castle -> setPos(220,380);
+    castle -> setPos(scene->width()/2 - 100,scene->height()/2);
     scene->addItem(castle);
 
     //Walls
 
-    for(int i = 0; i<7;i++){
+    for(int i = 0; i<14;i++){
         Fence * leftFence = new Fence;
-        leftFence -> setPos(100,150 + (50*i));
+        leftFence -> setPos(scene->width()/2 - 300,scene->height()/2 - 400 + (50*i));
         scene->addItem(leftFence);
     }
 
-    for(int i = 0; i<6;i++){
-        Fence * topFence = new Fence;
-        topFence -> setPos(150 + (50*i) ,150);
-        scene->addItem(topFence);
-    }
-
-    for(int i = 0; i<7;i++){
+    for(int i = 0; i<14;i++){
         Fence * rightFence = new Fence;
-        rightFence -> setPos(400,150 + (50*i));
+        rightFence -> setPos(scene->width()/2 + 150,scene->height()/2 - 400 + (50*i));
         scene->addItem(rightFence);
     }
 
-    for(int i = 0; i<7;i++){
+
+
+    for(int i = 0; i<8;i++){
+        Fence * topFence = new Fence;
+        topFence -> setPos(scene->height()/2 + 50 + (50*i) ,scene->width()/2 - 700);
+        scene->addItem(topFence);
+    }
+
+
+    for(int i = 0; i<8;i++){
         Fence * bottomFence = new Fence;
-        bottomFence -> setPos(100 + (50*i) ,500);
+        bottomFence -> setPos(scene->height()/2 + 50 + (50*i) ,scene->width()/2 - 50);
         scene->addItem(bottomFence);
     }
 
@@ -75,7 +82,7 @@ int main(int argc, char *argv[])
     //Defense
 
     Archer * archer = new Archer;
-    archer -> setPos(270,250);
+    archer -> setPos(scene->width()/2 - 50,scene->height()/2 - 200 );
     scene->addItem(archer);
 
     //Enemies
@@ -84,39 +91,37 @@ int main(int argc, char *argv[])
     for(int i = 0; i<10;i++){
         Enemy * enemy = new Enemy;
 
-        int x = 10 + rand() % 750;
-        int y = 10 + rand() % 750;
+        int x = QRandomGenerator::global()->bounded(0, 1600);
+        int y = QRandomGenerator::global()->bounded(0, 1000);
 
 
-
-
-        if(x>=100 && x<= 400){
-            if(y>=150 && y<= 500){
-                y+=350;
-                x+=300;
-            }
+        bool spawn = true;
+        while(spawn){
+        if(!(x>=550 && x<= 900) && !(y>=100 && y<=700)){
+            enemy -> setPos(x,y);
+            scene->addItem(enemy);
+            spawn = false;
+        }else{
+            x = QRandomGenerator::global()->bounded(0, 1600);
+            y = QRandomGenerator::global()->bounded(0, 1000);
         }
-
-
-
-        enemy -> setPos(x,y);
-
-        scene->addItem(enemy);
     }
 
-    /*
-    QTimer * time = new QTimer();
-    QObject::connect(time, SIGNAL(timeout()),enemy,SLOT(Enemy_Spawn()));
-    time->start(2000);
-*/
+
+
+
+    }
+
+
 
     //Worker
-    for(int i = 0; i<5;i++){
-        Worker * worker = new Worker;
-        worker -> setPos(150 + rand() % 250, 100 + rand() % 400);
+    for(int i = 0; i < 5; i++) {
+        Worker *worker = new Worker;
+        int xPos = QRandomGenerator::global()->bounded(550, 900);
+        int yPos = QRandomGenerator::global()->bounded(100, 700);
+        worker->setPos(xPos, yPos);
         scene->addItem(worker);
     }
-
 
 
 

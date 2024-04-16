@@ -11,9 +11,10 @@ Enemy::Enemy() {
     setPixmap(scaledPixmap);
 
     //moving
+
     QTimer* timer = new QTimer(this);  // Parent the timer to the enemy for automatic cleanup
     connect(timer, &QTimer::timeout, this, &Enemy::move);
-    timer->start(150);
+    timer->start(20);
 
 }
 
@@ -30,7 +31,7 @@ void Enemy::move() {
     if (!scene()) return;
 
     Enemy* enemy = new Enemy;
-    if(pos().y() < 150){
+    if(pos().y() < 80){
     int newY = y() + 2;
     if (newY > scene()->height() - this->pixmap().height()) {
         newY = 0;
@@ -40,7 +41,7 @@ void Enemy::move() {
     }
 
 
-    if(pos().y() > 500){
+    if(pos().y() > 800){
         int newY = y() - 2;
         if (newY > scene()->height() - this->pixmap().height()) {
             newY = 0;
@@ -49,7 +50,7 @@ void Enemy::move() {
         setPos(x(), newY);
     }
 
-    if(pos().x() > 430){
+    if(pos().x() > 900){
         int newX = x() - 2;
         if (newX> scene()->height() - this->pixmap().height()) {
             newX = 0;
@@ -58,7 +59,7 @@ void Enemy::move() {
         setPos(newX, y());
     }
 
-    if(pos().x() < 100){
+    if(pos().x() < 520){
         int newX = x() + 2;
         if (newX> scene()->height() - this->pixmap().height()) {
             newX = 0;
