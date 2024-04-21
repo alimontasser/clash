@@ -13,6 +13,8 @@
 #include <random>
 #include <QRandomGenerator>
 #include <stdlib.h>
+#include <QtWidgets>
+#include <MyGraphicsView.h>
 
 
 
@@ -21,10 +23,10 @@ int main(int argc, char *argv[])
 {
 
 
+    QApplication a(argc, argv);
 
-    QApplication a(argc, argv);  // Use QApplication for GUI applications
 
-    QGraphicsView *view = new QGraphicsView();
+    MyGraphicsView *view = new MyGraphicsView();
     view->setFixedSize(1600, 1000);
 
     // Create the Scene
@@ -32,7 +34,6 @@ int main(int argc, char *argv[])
     scene->setSceneRect(0, 0, 1600, 1000); // Set the scene size to match the view
 
 
-    // Disable scrollbars
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -88,24 +89,28 @@ int main(int argc, char *argv[])
     //Enemies
 
 
-    for(int i = 0; i<10;i++){
-        Enemy * enemy = new Enemy;
+    for (int i = 0; i < 10; i++) {
+        Enemy *enemy = new Enemy;
 
-        int x = QRandomGenerator::global()->bounded(0, 1600);
-        int y = QRandomGenerator::global()->bounded(0, 1000);
-
-
+        int x, y;
         bool spawn = true;
+
         while(spawn){
-        if(!(x>=550 && x<= 900) && !(y>=100 && y<=700)){
-            enemy -> setPos(x,y);
-            scene->addItem(enemy);
-            spawn = false;
-        }else{
+
             x = QRandomGenerator::global()->bounded(0, 1600);
-            y = QRandomGenerator::global()->bounded(0, 1000);
+            y = QRandomGenerator::global()->bounded(0, 1600);
+            int leftFenceX = (scene->width() / 2) - 300;
+            int rightFenceX = (scene->width() / 2) + 150;
+            int fenceTopY = (scene->height() / 2) - 400;
+            int fenceBottomY = (scene->height() / 2) + 50 + (7 * 50);
+
+            if ((x < leftFenceX || x > rightFenceX) || (y < fenceTopY || y > fenceBottomY)) {
+
+                enemy->setPos(x, y);
+                scene->addItem(enemy);
+                spawn = false;
+            }
         }
-    }
 
 
 
@@ -125,9 +130,12 @@ int main(int argc, char *argv[])
 
 
 
-    // Set the scene and show the view
+
     view->setScene(scene);
     view->show();
+
+    QObject::connect(view, &MyGraphicsView::mousePositionChanged, view, &MyGraphicsView::handleMousePress);
+
 
     return a.exec();  // Start the event loop
 }

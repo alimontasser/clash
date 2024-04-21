@@ -11,6 +11,7 @@ CONFIG += c++17 cmdline
 
 SOURCES += \
         Archer.cpp \
+        arrow.cpp \
         cannon.cpp \
         castle.cpp \
         defenseunit.cpp \
@@ -28,6 +29,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     Archer.h \
+    MyGraphicsView.h \
+    arrow.h \
     cannon.h \
     castle.h \
     defenseunit.h \

@@ -7,5 +7,7 @@
         <file>wizardtower.png</file>
         <file>fence.png</file>
         <file>worker.png</file>
+        <file>background.png</file>
+        <file>arrow.png</file>
     </qresource>
 </RCC>

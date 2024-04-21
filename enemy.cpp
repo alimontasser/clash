@@ -30,41 +30,21 @@ void Enemy::Enemy_Spawn(){
 void Enemy::move() {
     if (!scene()) return;
 
-    Enemy* enemy = new Enemy;
-    if(pos().y() < 80){
-    int newY = y() + 2;
-    if (newY > scene()->height() - this->pixmap().height()) {
-        newY = 0;
+    int newX = x();
+    int newY = y();
+
+    if (pos().y() < 80) {
+        newY += 2;
+    } else if (pos().y() > 800) {
+        newY -= 2;
     }
 
-    setPos(x(), newY);
+    if (pos().x() > 1000) {
+        newX -= 2;
+    } else if (pos().x() < 520) {
+        newX += 2;
     }
 
-
-    if(pos().y() > 800){
-        int newY = y() - 2;
-        if (newY > scene()->height() - this->pixmap().height()) {
-            newY = 0;
-        }
-
-        setPos(x(), newY);
-    }
-
-    if(pos().x() > 900){
-        int newX = x() - 2;
-        if (newX> scene()->height() - this->pixmap().height()) {
-            newX = 0;
-        }
-
-        setPos(newX, y());
-    }
-
-    if(pos().x() < 520){
-        int newX = x() + 2;
-        if (newX> scene()->height() - this->pixmap().height()) {
-            newX = 0;
-        }
-
-        setPos(newX, y());
-    }
+    setPos(newX, newY);
 }
+
